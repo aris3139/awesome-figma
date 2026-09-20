@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
-  "name": "awesome-figma",
+  "name": "awesome",
   "version": "1.0.0",
   "description": "Figma screen evidence from the macOS clipboard (⌘C in Figma, no token, no plugin): decoded scene → per-screen context.txt, clusters, UI map, icons — the scanner behind the awesome pipeline, usable on its own",
   "author": {

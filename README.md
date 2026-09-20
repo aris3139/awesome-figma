@@ -17,9 +17,12 @@ team can scan designs without the rest of that workflow.
 
 ```bash
 claude plugin marketplace add aris3139/awesome-figma
-claude plugin install awesome-figma@aris-figma
-cd ~/.claude/plugins/…/awesome-figma/scripts/figclip && bun install   # once, where the plugin was installed
+claude plugin install awesome@aris-figma
+cd "$(claude plugin details awesome@aris-figma 2>/dev/null | grep -o '/.*awesome' | head -1)/scripts/figclip" && bun install   # once, in the installed plugin dir
 ```
+
+The plugin is named `awesome` so the command reads `/awesome:figma …`. Do **not** install it on a machine that already has the
+full `awesome` pipeline plugin — same name, it would collide; that plugin already contains this scanner.
 
 Development: clone, symlink into the skills directory (`ln -s <clone> ~/.claude/skills/awesome-figma`), `bun install`
 in `scripts/figclip`. Skills reload live; `/reload-plugins` after editing anything else.
@@ -28,8 +31,8 @@ in `scripts/figclip`. Skills reload live; `/reload-plugins` after editing anythi
 
 | Want | Do |
 |---|---|
-| Scan a design | In Figma select the root frame (or ⌘A on the page) → ⌘C → `/awesome-figma:figma creator <dir>` — `<dir>` optional, default `~/Downloads/<name-of-the-copied-frame>` |
-| Design changed | ⌘C again → `/awesome-figma:figma update [<dir>]` — default: the last scanned dir. Prints `changed / new / unchanged / unknown` per screen and applies it |
+| Scan a design | In Figma select the root frame (or ⌘A on the page) → ⌘C → `/awesome:figma creator <dir>` — `<dir>` optional, default `~/Downloads/<name-of-the-copied-frame>` |
+| Design changed | ⌘C again → `/awesome:figma update [<dir>]` — default: the last scanned dir. Prints `changed / new / unchanged / unknown` per screen and applies it |
 | Screenshots (optional) | Select a frame → ⌘⇧C → the skill saves it as ground truth; missing screenshots are a warning, never a stop |
 
 Output tree:
@@ -61,7 +64,7 @@ tokens) → `screen_cluster.py` (variants around a base screen, unified diffs) �
 ## Layout
 
 ```text
-.claude-plugin/     plugin.json · marketplace.json (aris-figma)
+.claude-plugin/     plugin.json (name awesome) · marketplace.json (aris-figma)
 skills/figma/       the skill (creator · update)
 reference/          scan.md (procedure) · context-format.md (dictionary) · SCANNER_NOTES.md (engine)
 scripts/            figma_deep_scan.py · feature_layout.py · screen_cluster.py · ui_map.py · regress.py · release.sh · figclip/
@@ -76,7 +79,7 @@ python3 -m unittest discover -s tests
 bash -n bin/* scripts/release.sh && claude plugin validate .
 ```
 
-One CHANGELOG bullet per change; `scripts/release.sh patch|minor|major` tags `awesome-figma--vX.Y.Z` and publishes the
+One CHANGELOG bullet per change; `scripts/release.sh patch|minor|major` tags `awesome--vX.Y.Z` and publishes the
 GitHub Release. Changing a file or field of the output tree is a **major** bump: the `awesome` plugin reads it.
 
 ## License

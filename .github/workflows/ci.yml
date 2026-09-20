@@ -2,7 +2,7 @@ name: CI
 on:
   push:
     branches: [main]
-    tags: ['awesome-figma--v*']
+    tags: ['awesome--v*']
   pull_request:
 
 jobs:
@@ -39,5 +39,5 @@ jobs:
         if: github.ref_type == 'tag'
         run: |
           v=$(python3 -c "import json;print(json.load(open('.claude-plugin/plugin.json'))['version'])")
-          [ "$GITHUB_REF_NAME" = "awesome-figma--v$v" ] || { echo "tag $GITHUB_REF_NAME does not match plugin.json version $v"; exit 1; }
+          [ "$GITHUB_REF_NAME" = "awesome--v$v" ] || { echo "tag $GITHUB_REF_NAME does not match plugin.json version $v"; exit 1; }
           grep -q "^## $v — " CHANGELOG.md || { echo "CHANGELOG.md has no '## $v — <date>' section"; exit 1; }

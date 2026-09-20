@@ -1,14 +1,14 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "aris-figma",
-  "description": "awesome-figma — Figma screen evidence from the clipboard",
+  "description": "awesome-figma — the Figma clipboard scanner of the awesome pipeline, distributed alone (plugin name `awesome`, so the command is /awesome:figma)",
   "owner": {
     "name": "aris",
     "email": "aris3139@users.noreply.github.com"
   },
   "plugins": [
     {
-      "name": "awesome-figma",
+      "name": "awesome",
       "description": "Figma screen evidence from the macOS clipboard (⌘C in Figma, no token, no plugin): decoded scene → per-screen context.txt, clusters, UI map, icons",
       "version": "1.0.0",
       "source": "./",

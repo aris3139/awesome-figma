@@ -2,7 +2,7 @@
 # release.sh [-n|--dry-run] patch|minor|major|X.Y.Z
 # Bump convention (CHANGELOG.md): patch = wording/bug fix · minor = something new to learn, old dirs still work · major = existing feature dirs/habits break.
 # Steps: CHANGELOG `## Unreleased` must have bullets → becomes `## X.Y.Z — date`; bump plugin.json + marketplace.json; commit;
-#        tag awesome-figma--vX.Y.Z (claude plugin tag --push); push main; GitHub Release with that changelog section (needs `gh` logged in).
+#        tag awesome--vX.Y.Z (claude plugin tag --push); push main; GitHub Release with that changelog section (needs `gh` logged in).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"; cd "$ROOT"
 dry=0; case "${1:-}" in -n|--dry-run) dry=1; shift ;; esac
@@ -52,12 +52,12 @@ for path,key in (('.claude-plugin/plugin.json',None),('.claude-plugin/marketplac
 PY
 
 git add CHANGELOG.md .claude-plugin/plugin.json .claude-plugin/marketplace.json
-git -c commit.template= commit -q -m "release: awesome-figma v$new"
-claude plugin tag --push -m "awesome-figma v%s" .
+git -c commit.template= commit -q -m "release: awesome v$new"
+claude plugin tag --push -m "awesome v%s" .
 git push
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-  gh release create "awesome-figma--v$new" --title "awesome-figma v$new" --notes-file "$notes" && echo "GitHub Release awesome-figma v$new created"
+  gh release create "awesome--v$new" --title "awesome v$new" --notes-file "$notes" && echo "GitHub Release awesome v$new created"
 else
-  echo "gh not available / not logged in — create the GitHub Release by hand from tag awesome-figma--v$new with:"; cat "$notes"
+  echo "gh not available / not logged in — create the GitHub Release by hand from tag awesome--v$new with:"; cat "$notes"
 fi
-echo "released awesome-figma v$new (was $cur)"
+echo "released awesome v$new (was $cur)"
