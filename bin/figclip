@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# figclip dump <out.json> [--png <file>] | rest <clip.json> <nodeId> <out.json> | check <feature-dir> [clip.json] | icons <clip.json> <nodeId> <screen-dir>
+R="${CLAUDE_PLUGIN_ROOT:-$HOME/.claude/skills/awesome-figma}/scripts/figclip"; cmd="${1:-}"; shift || true
+case "$cmd" in
+  dump) exec node "$R/figclip_dump.mjs" "$@" ;;
+  rest) exec node "$R/kiwi_to_rest.mjs" "$@" ;;
+  check) exec node "$R/figclip_check.mjs" "$@" ;;
+  icons) # figclip icons <clip.json> <nodeId> <screen-dir>  → <screen-dir>/icons/*.svg + ICONS.md, filtered by <screen-dir>/context.txt
+    clip="$1"; node="$2"; dir="$3"; [ -n "$dir" ] || { echo "usage: figclip icons <clip.json> <nodeId> <screen-dir> [--icon-max N]"; exit 1; }; shift 3
+    tmp=$(mktemp); node "$R/kiwi_to_rest.mjs" "$clip" "$node" "$tmp" --icons "$dir/icons" --icon-filter "$([ -f "$dir/icons.json" ] && echo "$dir/icons.json" || echo "$dir/context.txt")" "$@"; rc=$?; rm -f "$tmp"; exit $rc ;;
+  *) echo "usage: figclip dump <out.json> [--png <file>] | check <feature-dir> [clip.json] | icons <clip.json> <nodeId> <screen-dir> | rest <clip.json> <nodeId> <out.json> [--plugin-compat|--keep-hidden]"; exit 1 ;;
+esac

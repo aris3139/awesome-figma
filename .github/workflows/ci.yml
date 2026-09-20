@@ -1,0 +1,43 @@
+name: CI
+on:
+  push:
+    branches: [main]
+    tags: ['awesome-figma--v*']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Python unit tests
+        run: python -m unittest discover -s tests -v
+
+      - uses: oven-sh/setup-bun@v2
+      - name: figclip deps (lockfile must be current)
+        working-directory: scripts/figclip
+        run: bun install --frozen-lockfile
+
+      - name: Shell syntax
+        run: bash -n bin/* scripts/release.sh
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: Plugin manifest validation
+        run: |
+          npm i -g @anthropic-ai/claude-code
+          claude plugin validate .
+      - name: Release tag dry-run (skipped on tag builds — the tag already exists there)
+        if: github.ref_type != 'tag'
+        run: claude plugin tag --dry-run .
+      - name: CHANGELOG has the tagged version (tag builds)
+        if: github.ref_type == 'tag'
+        run: |
+          v=$(python3 -c "import json;print(json.load(open('.claude-plugin/plugin.json'))['version'])")
+          [ "$GITHUB_REF_NAME" = "awesome-figma--v$v" ] || { echo "tag $GITHUB_REF_NAME does not match plugin.json version $v"; exit 1; }
+          grep -q "^## $v — " CHANGELOG.md || { echo "CHANGELOG.md has no '## $v — <date>' section"; exit 1; }

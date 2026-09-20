@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# awesome-figma-sync — pull the clone (git source of truth), refresh figclip deps, validate the manifest.
+set -euo pipefail
+R="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"; cd "$R"
+[ -z "$(git status --porcelain)" ] || { echo "awesome-figma-sync: working tree dirty in $R — commit or stash first" >&2; git status --short >&2; exit 1; }
+before=$(git rev-parse --short HEAD); git pull --ff-only; after=$(git rev-parse --short HEAD)
+( cd scripts/figclip && bun install --frozen-lockfile >/dev/null 2>&1 ) || echo "awesome-figma-sync: bun install failed (figclip may not run)" >&2
+claude plugin validate "$R" >/dev/null 2>&1 && echo "awesome-figma-sync: manifest OK" || echo "awesome-figma-sync: claude plugin validate FAILED" >&2
+[ "$before" = "$after" ] && echo "awesome-figma-sync: already up to date ($after)" || { echo "awesome-figma-sync: $before → $after"; git --no-pager log --oneline "$before..$after"; echo "→ /reload-plugins in Claude Code"; }
