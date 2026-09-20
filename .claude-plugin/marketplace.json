@@ -2,14 +2,20 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "aris-figma",
   "description": "awesome-figma — Figma screen evidence from the clipboard",
-  "owner": { "name": "aris", "email": "aris3139@users.noreply.github.com" },
+  "owner": {
+    "name": "aris",
+    "email": "aris3139@users.noreply.github.com"
+  },
   "plugins": [
     {
       "name": "awesome-figma",
       "description": "Figma screen evidence from the macOS clipboard (⌘C in Figma, no token, no plugin): decoded scene → per-screen context.txt, clusters, UI map, icons",
-      "version": "0.0.0",
+      "version": "1.0.0",
       "source": "./",
-      "author": { "name": "aris", "email": "aris3139@users.noreply.github.com" },
+      "author": {
+        "name": "aris",
+        "email": "aris3139@users.noreply.github.com"
+      },
       "homepage": "https://github.com/aris3139/awesome-figma",
       "category": "development"
     }

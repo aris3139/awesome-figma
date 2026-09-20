@@ -1,11 +1,19 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "awesome-figma",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Figma screen evidence from the macOS clipboard (⌘C in Figma, no token, no plugin): decoded scene → per-screen context.txt, clusters, UI map, icons — the scanner behind the awesome pipeline, usable on its own",
-  "author": { "name": "aris", "email": "aris3139@users.noreply.github.com" },
+  "author": {
+    "name": "aris",
+    "email": "aris3139@users.noreply.github.com"
+  },
   "homepage": "https://github.com/aris3139/awesome-figma",
   "repository": "https://github.com/aris3139/awesome-figma",
   "license": "MIT",
-  "keywords": ["figma", "clipboard", "design-to-code", "scanner"]
+  "keywords": [
+    "figma",
+    "clipboard",
+    "design-to-code",
+    "scanner"
+  ]
 }
