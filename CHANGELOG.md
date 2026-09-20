@@ -8,7 +8,10 @@ re-meaning) — consumers such as the `awesome` plugin must follow.
 
 ## Unreleased
 
+## 1.0.1 — 2026-09-20
+
 - plugin renamed `awesome-figma` → `awesome` so the command is `/awesome:figma creator|update` (Claude Code always prefixes plugin skills with the plugin name); release tags are `awesome--vX.Y.Z` from here on. Never install next to the full `awesome` pipeline plugin — same name
+
 ## 1.0.0 — 2026-09-20
 
 - Extracted from `awesome` 2.0.0 as a standalone plugin: skill `figma` (`creator [<dir>]`, `update [<dir>]`), clipboard decoder `figclip` (dump · rest · check · icons), scanner `figma_deep_scan.py` 5.4, `screen_cluster.py`, `ui_map.py`, `regress.py`, references `scan.md` · `context-format.md` · `SCANNER_NOTES.md`, 28 tests

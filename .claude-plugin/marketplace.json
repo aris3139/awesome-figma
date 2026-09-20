@@ -10,7 +10,7 @@
     {
       "name": "awesome",
       "description": "Figma screen evidence from the macOS clipboard (⌘C in Figma, no token, no plugin): decoded scene → per-screen context.txt, clusters, UI map, icons",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "source": "./",
       "author": {
         "name": "aris",
